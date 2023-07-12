@@ -22,37 +22,36 @@ function playRound(playerSelection, computerSelection) {
 }
 
 function game() {
-    let scoreCount = 0;
-    for (let i = 0; i < 5; i++) {
-        let choice;
-        while (!choice) {
-            choice = prompt("Enter your choice: ");
-        }
+    let scoreSelf = 0, scoreComputer = 0;
+    const buttons = document.querySelectorAll('button');
+    const result = document.querySelector('#result');
+    const scoreS = document.querySelector('#score-self');
+    const scoreC = document.querySelector('#score-computer');
+    const final = document.querySelector('#final');
 
-        switch(playRound(choice, getComputerChoice())) {
-            case 1:
-                console.log('You win!');
-                scoreCount++;
-                break;
-            case 2:
-                console.log('You lose!');
-                scoreCount--;
-                break;
-            case 3:
-                console.log('You tied!');
-                break;
-            default:
-                console.log('Something went wrong!');
-        }
-    }
-
-    if (scoreCount > 0) {
-        console.log("You win the game!");
-    } else if (scoreCount < 0) {
-        console.log("You lose the game!");
-    } else {
-        console.log("The game is a tie!");
-    }
+    buttons.forEach((button) => {
+        button.addEventListener('click', function(e) {
+            switch(playRound(e.target.getAttribute('id'), getComputerChoice())) {
+                case 1:
+                    result.textContent = 'You win!';
+                    scoreSelf++;
+                    scoreS.textContent = scoreSelf;
+                    if (scoreSelf >= 5) final.textContent = "You win the game!";
+                    break;
+                case 2:
+                    result.textContent = 'You lose!';
+                    scoreComputer++;
+                    scoreC.textContent = scoreComputer;
+                    if (scoreComputer >= 5) final.textContent = "You lose the game!";
+                    break;
+                case 3:
+                    result.textContent = 'You tied!';
+                    break;
+                default:
+                    result.textContent = 'Something went wrong!';
+            }
+        })
+    })
 }
 
 game();
